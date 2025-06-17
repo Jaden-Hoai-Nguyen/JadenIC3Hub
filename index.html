@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IC3 Certification - IIG Vietnam</title>
-    <!-- <script src="dashboard.js"></script>
-    <link rel="stylesheet" href="dashboard.css"> -->
     <style>
         * {
             margin: 0;
@@ -96,6 +94,26 @@
             transform: translateY(-2px);
         }
 
+        /* Hamburger Menu */
+        .hamburger {
+            display: none; /* Hidden by default */
+            flex-direction: column;
+            justify-content: space-around;
+            width: 30px;
+            height: 25px;
+            cursor: pointer;
+            z-index: 1100;
+        }
+
+        .hamburger span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background: #2c3e50;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
         /* Hero Section */
         .hero {
             padding: 80px 0;
@@ -104,14 +122,14 @@
         }
 
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: clamp(2.5rem, 6vw, 3.5rem); /* Fluid font size */
             margin-bottom: 20px;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
             animation: fadeInUp 1s ease;
         }
 
         .hero p {
-            font-size: 1.2rem;
+            font-size: clamp(1rem, 2.5vw, 1.2rem); /* Fluid font size */
             margin-bottom: 40px;
             opacity: 0.9;
             animation: fadeInUp 1s ease 0.2s both;
@@ -149,7 +167,7 @@
         /* Features Grid */
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Adjusted min-width */
             gap: 30px;
             margin-bottom: 60px;
         }
@@ -225,13 +243,13 @@
         }
 
         .about-text h2 {
-            font-size: 2.5rem;
+            font-size: clamp(2rem, 5vw, 2.5rem); /* Fluid font size */
             margin-bottom: 25px;
             color: #2c3e50;
         }
 
         .about-text p {
-            font-size: 1.1rem;
+            font-size: clamp(0.95rem, 2.2vw, 1.1rem); /* Fluid font size */
             color: #5d6d7e;
             margin-bottom: 20px;
         }
@@ -270,7 +288,7 @@
         /* Statistics */
         .stats {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Adjusted min-width */
             gap: 30px;
             margin: 60px 0;
         }
@@ -284,13 +302,13 @@
         }
 
         .stat-number {
-            font-size: 3rem;
+            font-size: clamp(2rem, 5vw, 3rem); /* Fluid font size */
             font-weight: bold;
             margin-bottom: 10px;
         }
 
         .stat-label {
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2.2vw, 1.1rem); /* Fluid font size */
             opacity: 0.9;
         }
 
@@ -304,7 +322,7 @@
 
         .footer-content {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjusted min-width */
             gap: 40px;
             margin-bottom: 30px;
         }
@@ -337,32 +355,183 @@
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        /* Tablet and smaller screens */
+        @media (max-width: 992px) {
             .nav-menu {
-                display: none;
+                gap: 20px;
             }
 
-            .hero h1 {
-                font-size: 2.5rem;
+            .hero {
+                padding: 60px 0;
+            }
+
+            .main-content {
+                margin: -40px 15px 0;
+                padding: 40px 0;
+            }
+
+            .about {
+                padding: 60px 0;
+                margin: 40px 0;
             }
 
             .about-content {
-                grid-template-columns: 1fr;
                 gap: 40px;
             }
+        }
 
-            .about-text {
-                order: 2;
+        /* Mobile screens */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none; /* Hide menu by default on mobile */
+                flex-direction: column;
+                position: absolute;
+                top: 80px; /* Adjust based on header height */
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.98);
+                box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+                padding: 20px 0;
+                border-radius: 0 0 15px 15px;
+            }
+
+            .nav-menu.active {
+                display: flex; /* Show menu when active */
+            }
+
+            .nav-menu li {
+                text-align: center;
+                margin: 10px 0;
+            }
+
+            .hamburger {
+                display: flex; /* Show hamburger icon */
+            }
+
+            .hero {
+                padding: 50px 0;
+            }
+
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .cta-button {
+                padding: 12px 30px;
+                font-size: 0.9rem;
             }
 
             .main-content {
                 margin: -30px 10px 0;
+                padding: 30px 0;
+            }
+
+            .features {
+                grid-template-columns: 1fr; /* Stack features on small screens */
+            }
+
+            .feature-card {
+                padding: 30px;
+            }
+
+            .about-content {
+                grid-template-columns: 1fr; /* Stack about content */
+                gap: 30px;
+            }
+
+            .about-text {
+                order: 2; /* Put text below image on mobile */
+                text-align: center;
+            }
+            .about-text ul {
+                text-align: left; /* Keep list left-aligned */
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .cert-preview {
+                padding: 20px; /* Reduce padding for image preview */
+            }
+
+            .stats {
+                grid-template-columns: 1fr; /* Stack stats on small screens */
+            }
+
+            .stat-item {
+                padding: 20px;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr; /* Stack footer sections */
+                gap: 20px;
+            }
+
+            .footer-section {
+                padding: 0 15px;
+            }
+        }
+
+        /* Extra small mobile screens */
+        @media (max-width: 480px) {
+            .container {
+                padding: 0 15px;
+            }
+
+            .logo-text h1 {
+                font-size: 20px;
+            }
+
+            .logo-text p {
+                font-size: 12px;
+            }
+
+            .hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero p {
+                font-size: 0.9rem;
+            }
+
+            .main-content {
+                margin: -20px 5px 0;
+                border-radius: 10px 10px 0 0;
+            }
+
+            .feature-card {
+                padding: 20px;
+            }
+
+            .feature-icon {
+                width: 60px;
+                height: 60px;
+                font-size: 1.5rem;
+                margin-bottom: 15px;
+            }
+
+            .feature-card h3 {
+                font-size: 1.2rem;
+            }
+
+            .about-text h2 {
+                font-size: 1.8rem;
+            }
+
+            .stat-number {
+                font-size: 2.2rem;
+            }
+
+            .stat-label {
+                font-size: 0.9rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header class="header">
         <div class="container">
             <div class="nav-container">
@@ -383,11 +552,15 @@
                         <li><a href="#contact">Liên hệ</a></li>
                     </ul>
                 </nav>
+                <div class="hamburger" id="hamburger-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Hero Section -->
     <section class="hero" id="home">
         <div class="container">
             <h1>Chứng chỉ IC3 Quốc tế</h1>
@@ -396,10 +569,8 @@
         </div>
     </section>
 
-    <!-- Main Content -->
     <main class="main-content">
         <div class="container">
-            <!-- Features Section -->
             <section class="features" id="practice">
                 <div class="feature-card">
                     <div class="feature-icon">📚</div>
@@ -430,7 +601,6 @@
                 </div>
             </section>
 
-            <!-- About Section -->
             <section class="about" id="about">
                 <div class="container">
                     <div class="about-content">
@@ -468,7 +638,6 @@
                 </div>
             </section>
 
-            <!-- Statistics -->
             <section class="stats">
                 <div class="stat-item">
                     <div class="stat-number">10,000+</div>
@@ -490,7 +659,6 @@
         </div>
     </main>
 
-    <!-- Footer -->
     <footer class="footer">
         <div class="container">
             <div class="footer-content">
@@ -576,6 +744,21 @@
             };
             window.requestAnimationFrame(step);
         }
+
+        // Hamburger menu functionality
+        const hamburger = document.getElementById('hamburger-menu');
+        const navMenu = document.querySelector('.nav-menu');
+
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when a link is clicked (for single-page navigation)
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
     </script>
 </body>
 </html>

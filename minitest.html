@@ -38,14 +38,14 @@
         .header h1 {
             text-align: center;
             color: #2c3e50;
-            font-size: 2.5rem;
+            font-size: clamp(1.8rem, 4vw, 2.5rem); /* Fluid font size */
             margin-bottom: 10px;
         }
 
         .header p {
             text-align: center;
             color: #7f8c8d;
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem); /* Fluid font size */
         }
 
         /* Navigation */
@@ -68,6 +68,8 @@
             transition: all 0.3s ease;
             text-decoration: none;
             display: inline-block;
+            font-size: 1rem;
+            text-align: center;
         }
 
         .nav-btn:hover, .nav-btn.active {
@@ -100,14 +102,14 @@
         }
 
         .test-title {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 3.5vw, 2rem); /* Fluid font size */
             color: #2c3e50;
             margin-bottom: 10px;
         }
 
         .test-description {
             color: #7f8c8d;
-            font-size: 1.1rem;
+            font-size: clamp(0.9rem, 2vw, 1.1rem); /* Fluid font size */
         }
 
         /* Question Styles */
@@ -228,7 +230,7 @@
         }
 
         .score {
-            font-size: 3rem;
+            font-size: clamp(2.5rem, 5vw, 3rem); /* Fluid font size */
             font-weight: bold;
             margin-bottom: 20px;
         }
@@ -246,7 +248,7 @@
         }
 
         .score-message {
-            font-size: 1.3rem;
+            font-size: clamp(1rem, 2.5vw, 1.3rem); /* Fluid font size */
             margin-bottom: 20px;
         }
 
@@ -261,7 +263,7 @@
 
         .minitest-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Adjusted min-width for better mobile fit */
             gap: 25px;
             margin-top: 30px;
         }
@@ -318,39 +320,156 @@
             }
         }
 
+        /* Responsive */
+        /* Tablet and smaller screens */
+        @media (max-width: 992px) {
+            .container {
+                padding: 15px;
+            }
+
+            .header {
+                margin-bottom: 20px;
+                padding: 15px 0;
+            }
+
+            .nav-container {
+                gap: 15px;
+                margin: 20px 0;
+            }
+
+            .nav-btn {
+                padding: 12px 25px;
+                font-size: 0.95rem;
+            }
+
+            .test-container {
+                padding: 30px;
+            }
+        }
+
+        /* Mobile screens */
         @media (max-width: 768px) {
             .container {
                 padding: 10px;
             }
-            
+
+            .header {
+                padding: 15px 0;
+            }
+
             .header h1 {
                 font-size: 2rem;
             }
             
             .nav-container {
+                flex-direction: column; /* Stack buttons vertically */
                 gap: 10px;
+                margin: 15px 0;
             }
             
             .nav-btn {
+                width: 80%; /* Make buttons wider */
+                max-width: 300px;
                 padding: 10px 20px;
                 font-size: 0.9rem;
             }
             
             .test-container {
                 padding: 20px;
+                border-radius: 15px;
+            }
+
+            .test-header {
+                margin-bottom: 20px;
+                padding-bottom: 15px;
+            }
+
+            .question {
+                padding: 20px;
+            }
+
+            .minitest-grid {
+                grid-template-columns: 1fr; /* Stack cards on small mobile */
+                gap: 20px;
+            }
+
+            .minitest-card {
+                padding: 25px;
+            }
+
+            .test-controls {
+                flex-direction: column; /* Stack control buttons */
+                gap: 15px;
+            }
+
+            .btn {
+                width: 80%;
+                max-width: 250px;
+                margin: 0 auto;
+                padding: 12px 25px;
+            }
+        }
+
+        /* Extra small mobile screens */
+        @media (max-width: 480px) {
+            .container {
+                padding: 5px;
+            }
+
+            .header {
+                padding: 10px 0;
+            }
+
+            .header h1 {
+                font-size: 1.6rem;
+            }
+
+            .header p {
+                font-size: 0.85rem;
+            }
+
+            .test-container {
+                padding: 15px;
+            }
+
+            .question-text {
+                font-size: 1rem;
+            }
+
+            .option {
+                padding: 12px;
+                font-size: 0.9rem;
+            }
+
+            .nav-btn {
+                font-size: 0.85rem;
+                padding: 8px 15px;
+            }
+
+            .minitest-icon {
+                font-size: 2.5rem;
+                margin-bottom: 15px;
+            }
+
+            .minitest-title {
+                font-size: 1.3rem;
+            }
+            .minitest-description {
+                font-size: 0.9rem;
+            }
+            .minitest-stats {
+                font-size: 0.8rem;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
         <div class="header">
             <h1>IC3 Minitest System</h1>
             <p>Luyện tập kiến thức IC3 với các bài test ngắn</p>
         </div>
 
-        <!-- Navigation -->
         <div class="nav-container">
             <a href="index.html" class="nav-btn active" onclick="showHome()">🏠 Trang chủ</a>
             <a href="#minitest1" class="nav-btn" onclick="showTest('minitest1')">📝 Minitest 1</a>
@@ -359,7 +478,6 @@
             <a href="#minitest4" class="nav-btn" onclick="showTest('minitest4')">📝 Minitest 4</a>
         </div>
 
-        <!-- Home Page -->
         <div id="home" class="home-container">
             <div class="test-container active">
                 <div class="test-header">
@@ -411,7 +529,6 @@
             </div>
         </div>
 
-        <!-- Minitest 1: Computing Fundamentals -->
         <div id="minitest1" class="test-container">
             <div class="test-header">
                 <h2 class="test-title">Minitest 1: Computing Fundamentals</h2>
@@ -425,7 +542,6 @@
             <div id="minitest1-results" class="results"></div>
         </div>
 
-        <!-- Minitest 2: Key Applications -->
         <div id="minitest2" class="test-container">
             <div class="test-header">
                 <h2 class="test-title">Minitest 2: Key Applications</h2>
@@ -439,7 +555,6 @@
             <div id="minitest2-results" class="results"></div>
         </div>
 
-        <!-- Minitest 3: Living Online -->
         <div id="minitest3" class="test-container">
             <div class="test-header">
                 <h2 class="test-title">Minitest 3: Living Online</h2>
@@ -453,7 +568,6 @@
             <div id="minitest3-results" class="results"></div>
         </div>
 
-        <!-- Minitest 4: Troubleshooting -->
         <div id="minitest4" class="test-container">
             <div class="test-header">
                 <h2 class="test-title">Minitest 4: Troubleshooting</h2>
@@ -467,7 +581,6 @@
             <div id="minitest4-results" class="results"></div>
         </div>
 
-        <!-- Comprehensive Test -->
         <div id="comprehensive" class="test-container">
             <div class="test-header">
                 <h2 class="test-title">Tổng hợp (theo chủ đề)</h2>
@@ -481,7 +594,6 @@
             <div id="comprehensive-results" class="results"></div>
         </div>
 
-        <!-- Mixed Test -->
         <div id="mixed" class="test-container">
             <div class="test-header">
                 <h2 class="test-title">Xáo trộn (60 điểm)</h2>
@@ -495,3 +607,5 @@
             <div id="mixed-results" class="results"></div>
         </div>
     </div>
+</body>
+</html>
