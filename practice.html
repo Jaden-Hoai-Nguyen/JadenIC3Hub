@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luyện Thi IC3 Quốc Tế - IIG Vietnam</title>
+    <style>
+        /* Base Styles (Consistent with index.html and minitest.html) */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center content vertically */
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-radius: 15px;
+        }
+
+        .header h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: clamp(1.8rem, 4vw, 2.5rem); /* Fluid font size */
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            text-align: center;
+            color: #7f8c8d;
+            font-size: clamp(0.9rem, 2vw, 1.1rem); /* Fluid font size */
+        }
+
+        /* Program Selection Section */
+        .program-selection {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-top: 50px;
+        }
+
+        /* Program Card Styling (Main Accordion Item) */
+        .program-card {
+            background: white;
+            border-radius: 20px;
+            padding: 0; /* Remove internal padding to control dropdown padding */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            overflow: hidden; /* Hide overflow for smooth dropdown transition */
+        }
+
+        .program-card:hover {
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Program Title (Accordion Header) */
+        .program-title {
+            background: linear-gradient(45deg, #667eea, #764ba2); /* Gradient background */
+            color: white;
+            font-size: clamp(1.6rem, 3vw, 2rem); /* Fluid font size for title */
+            padding: 25px 30px; /* Generous padding */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s ease, border-bottom 0.3s ease;
+            border-bottom: 2px solid transparent; /* For active state */
+        }
+
+        .program-card.expanded .program-title {
+            background: linear-gradient(45deg, #5a6fd8, #6a3ea2); /* Slightly darker when expanded */
+            border-bottom: 2px solid rgba(255, 255, 255, 0.5); /* Highlight active */
+        }
+
+        .program-title .arrow-icon {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+            color: rgba(255, 255, 255, 0.8); /* Slightly faded arrow */
+        }
+
+        .program-card.expanded .program-title .arrow-icon {
+            transform: rotate(180deg);
+            color: white;
+        }
+
+        /* Dropdown Menu Styling */
+        .dropdown-menu {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0;
+            background: white; /* Match card background */
+        }
+
+        .program-card.expanded .dropdown-menu {
+            max-height: 500px; /* A value larger than the expected height of the content */
+            opacity: 1;
+            padding: 10px 0; /* Padding around dropdown content */
+        }
+
+        .dropdown-menu li {
+            border-bottom: 1px solid #f0f0f0; /* Subtle separator */
+        }
+        .dropdown-menu li:last-child {
+            border-bottom: none;
+        }
+
+        .dropdown-menu li a {
+            display: block;
+            padding: 18px 40px; /* Generous padding for links */
+            color: #333;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: background 0.3s ease, color 0.3s ease, transform 0.2s ease;
+            text-align: left;
+            position: relative;
+        }
+
+        .dropdown-menu li a:hover {
+            background: #f8f9fa; /* Light background on hover */
+            color: #667eea;
+            transform: translateX(10px); /* Slight slide effect */
+        }
+
+        .dropdown-menu li a::before {
+            content: '›'; /* Arrow indicator */
+            position: absolute;
+            left: 20px;
+            color: #bdc3c7;
+            font-size: 1.2rem;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .dropdown-menu li a:hover::before {
+            color: #667eea;
+        }
+
+        /* Responsive Adjustments */
+        /* Tablet and smaller screens */
+        @media (max-width: 992px) {
+            .container {
+                padding: 15px;
+            }
+            .header {
+                margin-bottom: 20px;
+                padding: 15px 0;
+            }
+            .program-selection {
+                gap: 20px;
+                margin-top: 30px;
+            }
+            .program-title {
+                font-size: 1.5rem;
+                padding: 20px 25px;
+                gap: 10px;
+            }
+            .dropdown-menu li a {
+                padding: 15px 30px;
+                font-size: 1rem;
+            }
+            .dropdown-menu li a::before {
+                left: 15px;
+            }
+        }
+
+        /* Mobile screens */
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            .header h1 {
+                font-size: 2rem;
+            }
+            .header p {
+                font-size: 1rem;
+            }
+            .program-selection {
+                gap: 15px;
+                margin-top: 20px;
+            }
+            .program-card {
+                border-radius: 15px;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+            .program-title {
+                font-size: 1.3rem;
+                padding: 18px 20px;
+            }
+            .dropdown-menu li a {
+                padding: 12px 25px;
+                font-size: 0.95rem;
+            }
+            .dropdown-menu li a::before {
+                left: 12px;
+            }
+        }
+
+        /* Extra small mobile screens */
+        @media (max-width: 480px) {
+            .container {
+                padding: 5px;
+            }
+            .header h1 {
+                font-size: 1.6rem;
+            }
+            .header p {
+                font-size: 0.85rem;
+            }
+            .program-card {
+                border-radius: 10px;
+            }
+            .program-title {
+                font-size: 1.1rem;
+                padding: 15px 15px;
+            }
+            .program-title .arrow-icon {
+                font-size: 1.2rem;
+            }
+            .dropdown-menu {
+                padding: 5px 0;
+            }
+            .dropdown-menu li a {
+                padding: 10px 20px;
+                font-size: 0.85rem;
+            }
+            .dropdown-menu li a::before {
+                left: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Luyện Thi IC3 Quốc Tế</h1>
+            <p>Chọn chương trình và khối lớp để bắt đầu luyện thi</p>
+        </div>
+
+        <div class="program-selection">
+            <div class="program-card" id="elementary-program">
+                <h2 class="program-title">CHƯƠNG TRÌNH TIỂU HỌC <span class="arrow-icon">▼</span></h2>
+                <ul class="dropdown-menu">
+                    <li><a href="level-test-template.html?program=elementary&level=spark1">IC3 GS6 Spark Level 1 (Khối 3)</a></li>
+                    <li><a href="level-test-template.html?program=elementary&level=spark2">IC3 GS6 Spark Level 2 (Khối 4)</a></li>
+                    <li><a href="level-test-template.html?program=elementary&level=spark3">IC3 GS6 Spark Level 3 (Khối 5)</a></li>
+                </ul>
+            </div>
+
+            <div class="program-card" id="secondary-program">
+                <h2 class="program-title">CHƯƠNG TRÌNH THCS <span class="arrow-icon">▼</span></h2>
+                <ul class="dropdown-menu">
+                    <li><a href="level-test-template.html?program=secondary&level=level1">IC3 GS6 Level 1 (Khối 6)</a></li>
+                    <li><a href="level-test-template.html?program=secondary&level=level2">IC3 GS6 Level 2 (Khối 7)</a></li>
+                    <li><a href="level-test-template.html?program=secondary&level=level3">IC3 GS6 Level 3 (Khối 8)</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const programCards = document.querySelectorAll('.program-card');
+
+            programCards.forEach(card => {
+                const title = card.querySelector('.program-title');
+                title.addEventListener('click', () => {
+                    card.classList.toggle('expanded');
+                    // Close other expanded cards when one is opened
+                    programCards.forEach(otherCard => {
+                        if (otherCard !== card && otherCard.classList.contains('expanded')) {
+                            otherCard.classList.remove('expanded');
+                        }
+                    });
+                });
+            });
+        });
+    </script>
+</body>
+</html>
