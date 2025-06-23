@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title id="page-title">IC3 Minitest</title>
+    <title>Bài kiểm tra Tin học lớp 5</title>
     <style>
         * {
             margin: 0;
@@ -15,7 +15,7 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #333;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #4fc3f7 0%, #29b6f6 100%);
             min-height: 100vh;
         }
 
@@ -29,9 +29,30 @@
             background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            padding: 20px;
+            padding: 30px;
             margin-bottom: 30px;
             border-radius: 15px;
+            text-align: center;
+        }
+
+        .header h1 {
+            color: #1976d2;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .header p {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .quiz-info {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -39,45 +60,37 @@
             gap: 15px;
         }
 
-        .header-info h1 {
-            color: #2c3e50;
-            font-size: clamp(1.5rem, 3vw, 2rem);
-            margin-bottom: 5px;
-        }
-
-        .header-info p {
-            color: #7f8c8d;
-            font-size: 0.95rem;
-        }
-
         .timer-score {
             display: flex;
             gap: 20px;
-            align-items: center;
         }
 
         .timer, .score {
             background: #f8f9fa;
-            padding: 10px 15px;
+            padding: 12px 20px;
             border-radius: 10px;
             text-align: center;
             border: 2px solid #e9ecef;
         }
 
         .timer {
-            border-color: #ff6b6b;
+            border-color: #ff5722;
+        }
+
+        .score {
+            border-color: #4caf50;
         }
 
         .timer-value {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            color: #ff6b6b;
+            color: #ff5722;
         }
 
         .score-value {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
-            color: #28a745;
+            color: #4caf50;
         }
 
         .test-container {
@@ -90,17 +103,17 @@
 
         .progress-bar {
             background: #f0f0f0;
-            height: 8px;
-            border-radius: 4px;
+            height: 10px;
+            border-radius: 5px;
             margin-bottom: 30px;
             overflow: hidden;
         }
 
         .progress {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #4fc3f7, #29b6f6);
             height: 100%;
             transition: width 0.3s ease;
-            border-radius: 4px;
+            border-radius: 5px;
         }
 
         .question-container {
@@ -111,24 +124,30 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 2px solid #f0f0f0;
+            border-bottom: 3px solid #f0f0f0;
         }
 
         .question-number {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #4fc3f7, #29b6f6);
             color: white;
-            padding: 8px 15px;
-            border-radius: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
             font-weight: bold;
+            font-size: 1.1rem;
         }
 
         .question-text {
-            font-size: 1.2rem;
-            color: #2c3e50;
+            font-size: 1.3rem;
+            color: #1976d2;
             margin-bottom: 25px;
             line-height: 1.7;
+            font-weight: 500;
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            border-left: 5px solid #2196f3;
         }
 
         .options {
@@ -140,23 +159,27 @@
         .option {
             background: #f8f9fa;
             border: 2px solid #e9ecef;
-            border-radius: 10px;
-            padding: 15px 20px;
+            border-radius: 12px;
+            padding: 18px 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 18px;
+            font-size: 1.1rem;
         }
 
         .option:hover {
             background: #e3f2fd;
             border-color: #2196f3;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
         }
 
         .option.selected {
             background: #e8f5e8;
-            border-color: #28a745;
+            border-color: #4caf50;
+            color: #2e7d32;
         }
 
         .option.correct {
@@ -172,20 +195,21 @@
         }
 
         .option-label {
-            background: #667eea;
+            background: #4fc3f7;
             color: white;
-            width: 30px;
-            height: 30px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-weight: bold;
             flex-shrink: 0;
+            font-size: 1rem;
         }
 
         .option.selected .option-label {
-            background: #28a745;
+            background: #4caf50;
         }
 
         .controls {
@@ -198,20 +222,20 @@
         }
 
         .btn {
-            background: linear-gradient(45deg, #667eea, #764ba2);
+            background: linear-gradient(45deg, #4fc3f7, #29b6f6);
             color: white;
             border: none;
-            padding: 12px 30px;
+            padding: 14px 35px;
             border-radius: 25px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 1rem;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(79, 195, 247, 0.4);
         }
 
         .btn:disabled {
@@ -222,11 +246,11 @@
         }
 
         .btn-secondary {
-            background: #6c757d;
+            background: linear-gradient(45deg, #78909c, #607d8b);
         }
 
         .btn-secondary:hover {
-            background: #5a6268;
+            box-shadow: 0 10px 25px rgba(120, 144, 156, 0.4);
         }
 
         .result-container {
@@ -240,23 +264,24 @@
         }
 
         .result-score {
-            font-size: 3rem;
+            font-size: 3.5rem;
             font-weight: bold;
-            color: #28a745;
+            color: #4caf50;
             margin-bottom: 20px;
         }
 
         .result-message {
-            font-size: 1.3rem;
-            color: #2c3e50;
+            font-size: 1.4rem;
+            color: #1976d2;
             margin-bottom: 30px;
+            font-weight: 500;
         }
 
         .result-details {
             background: #f8f9fa;
             border-radius: 15px;
-            padding: 20px;
-            margin: 20px 0;
+            padding: 25px;
+            margin: 25px 0;
             display: flex;
             justify-content: space-around;
             flex-wrap: wrap;
@@ -268,14 +293,15 @@
         }
 
         .result-item-value {
-            font-size: 1.5rem;
+            font-size: 1.8rem;
             font-weight: bold;
-            color: #667eea;
+            color: #4fc3f7;
         }
 
         .result-item-label {
-            color: #7f8c8d;
-            font-size: 0.9rem;
+            color: #666;
+            font-size: 1rem;
+            margin-top: 5px;
         }
 
         @media (max-width: 768px) {
@@ -283,7 +309,7 @@
                 padding: 10px;
             }
 
-            .header {
+            .quiz-info {
                 flex-direction: column;
                 text-align: center;
             }
@@ -294,7 +320,7 @@
             }
 
             .test-container {
-                padding: 20px;
+                padding: 25px;
             }
 
             .question-header {
@@ -309,7 +335,7 @@
 
             .btn {
                 width: 100%;
-                padding: 15px;
+                padding: 18px;
             }
 
             .result-details {
@@ -322,31 +348,36 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="header-info">
-                <h1 id="test-title">IC3 GS6 Spark Level 3 - Minitest 4</h1>
-                <p id="test-description">Kiến thức cơ bản về máy tính</p>
+            <h1>THÔNG TIN HỌC SINH LỚP 5</h1>
+            <p>Bài kiểm tra kiến thức Tin học cơ bản</p>
+        </div>
+
+        <div class="quiz-info">
+            <div>
+                <strong>Số câu hỏi:</strong> <span id="total-questions">15</span> |
+                <strong>Thời gian:</strong> <span>20 phút</span>
             </div>
             <div class="timer-score">
                 <div class="timer">
-                    <div class="timer-value" id="timer">15:00</div>
-                    <div style="font-size: 0.8rem; color: #666;">Thời gian</div>
+                    <div class="timer-value" id="timer">20:00</div>
+                    <div style="font-size: 0.9rem; color: #666;">Thời gian còn lại</div>
                 </div>
                 <div class="score">
-                    <div class="score-value" id="score">0/10</div>
-                    <div style="font-size: 0.8rem; color: #666;">Điểm</div>
+                    <div class="score-value" id="score">0/15</div>
+                    <div style="font-size: 0.9rem; color: #666;">Điểm số</div>
                 </div>
             </div>
         </div>
 
         <div class="test-container">
             <div class="progress-bar">
-                <div class="progress" id="progress" style="width: 10%"></div>
+                <div class="progress" id="progress" style="width: 6.67%"></div>
             </div>
 
             <div id="question-container" class="question-container">
                 <div class="question-header">
                     <div class="question-number" id="question-number">Câu 1</div>
-                    <div style="color: #7f8c8d; font-size: 0.9rem;" id="question-count">1 / 10</div>
+                    <div style="color: #666; font-size: 1rem; font-weight: 500;" id="question-count">1 / 15</div>
                 </div>
 
                 <div class="question-text" id="question-text">
@@ -368,126 +399,217 @@
             </div>
 
             <div id="result-container" class="result-container">
-                <div class="result-score" id="final-score">8/10</div>
-                <div class="result-message" id="result-message">Chúc mừng! Bạn đã hoàn thành bài test.</div>
+                <div class="result-score" id="final-score">12/15</div>
+                <div class="result-message" id="result-message">Chúc mừng! Bạn đã hoàn thành bài kiểm tra.</div>
                 
                 <div class="result-details">
                     <div class="result-item">
-                        <div class="result-item-value" id="correct-count">8</div>
-                        <div class="result-item-label">Câu đúng</div>
+                        <div class="result-item-value" id="correct-count">12</div>
+                        <div class="result-item-label">Câu trả lời đúng</div>
                     </div>
                     <div class="result-item">
-                        <div class="result-item-value" id="incorrect-count">2</div>
-                        <div class="result-item-label">Câu sai</div>
+                        <div class="result-item-value" id="incorrect-count">3</div>
+                        <div class="result-item-label">Câu trả lời sai</div>
                     </div>
                     <div class="result-item">
                         <div class="result-item-value" id="percentage">80%</div>
-                        <div class="result-item-label">Tỷ lệ đúng</div>
+                        <div class="result-item-label">Tỷ lệ chính xác</div>
                     </div>
                     <div class="result-item">
-                        <div class="result-item-value" id="time-taken">12:30</div>
-                        <div class="result-item-label">Thời gian</div>
+                        <div class="result-item-value" id="time-taken">15:30</div>
+                        <div class="result-item-label">Thời gian làm bài</div>
                     </div>
                 </div>
 
                 <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                    <button class="btn" onclick="restartTest()">🔄 Làm lại</button>
-                    <button class="btn btn-secondary" onclick="goBack()">🏠 Chọn bài khác</button>
+                    <button class="btn" onclick="restartTest()">🔄 Làm lại bài kiểm tra</button>
+                    <button class="btn btn-secondary" onclick="reviewAnswers()">📋 Xem lại đáp án</button>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Sample questions data - thay thế bằng dữ liệu thực tế từ server hoặc API
-        const questionsData = {
-            'elementary-spark1-1': [
-                {
-                    question: "Thiết bị nào được sử dụng để nhập văn bản vào máy tính?",
-                    options: ["Chuột", "Bàn phím", "Màn hình", "Loa"],
-                    correct: 1
-                },
-                {
-                    question: "RAM là viết tắt của từ gì?",
-                    options: ["Random Access Memory", "Read Access Memory", "Rapid Access Memory", "Real Access Memory"],
-                    correct: 0
-                },
-                {
-                    question: "Hệ điều hành nào sau đây là phổ biến nhất?",
-                    options: ["Linux", "Windows", "MacOS", "Android"],
-                    correct: 1
-                },
-                {
-                    question: "Đơn vị đo dung lượng bộ nhớ lớn nhất trong các đơn vị sau?",
-                    options: ["KB", "MB", "GB", "TB"],
-                    correct: 3
-                },
-                {
-                    question: "CPU viết tắt của từ gì?",
-                    options: ["Computer Processing Unit", "Central Processing Unit", "Central Program Unit", "Computer Program Unit"],
-                    correct: 1
-                },
-                {
-                    question: "Thiết bị nào sau đây là thiết bị đầu ra?",
-                    options: ["Bàn phím", "Chuột", "Máy in", "Microphone"],
-                    correct: 2
-                },
-                {
-                    question: "Phần mềm nào sau đây là trình duyệt web?",
-                    options: ["Microsoft Word", "Google Chrome", "Adobe Photoshop", "Windows Media Player"],
-                    correct: 1
-                },
-                {
-                    question: "Định dạng file nào thường được sử dụng cho hình ảnh?",
-                    options: [".txt", ".doc", ".jpg", ".mp3"],
-                    correct: 2
-                },
-                {
-                    question: "Phím tắt Ctrl+C được sử dụng để làm gì?",
-                    options: ["Dán", "Sao chép", "Cắt", "Hoàn tác"],
-                    correct: 1
-                },
-                {
-                    question: "Thiết bị nào sau đây được sử dụng để lưu trữ dữ liệu lâu dài?",
-                    options: ["RAM", "CPU", "Ổ cứng", "Màn hình"],
-                    correct: 2
-                }
-            ]
-        };
+        // Bộ câu hỏi Tin học lớp 5
+        const questions = [
+            {
+                question: "CPU là viết tắt của từ gì?",
+                options: [
+                    "Computer Processing Unit",
+                    "Central Processing Unit", 
+                    "Central Program Unit",
+                    "Computer Program Unit"
+                ],
+                correct: 1,
+                explanation: "CPU là viết tắt của Central Processing Unit - Bộ xử lý trung tâm"
+            },
+            {
+                question: "Thiết bị nào được sử dụng để nhập liệu vào máy tính?",
+                options: [
+                    "Màn hình",
+                    "Loa",
+                    "Bàn phím",
+                    "Máy in"
+                ],
+                correct: 2,
+                explanation: "Bàn phím là thiết bị đầu vào chính để nhập văn bản và lệnh vào máy tính"
+            },
+            {
+                question: "RAM có chức năng gì trong máy tính?",
+                options: [
+                    "Lưu trữ dữ liệu vĩnh viễn",
+                    "Lưu trữ dữ liệu tạm thời khi máy hoạt động",
+                    "Hiển thị hình ảnh",
+                    "Kết nối Internet"
+                ],
+                correct: 1,
+                explanation: "RAM (Random Access Memory) lưu trữ dữ liệu tạm thời khi máy tính đang hoạt động"
+            },
+            {
+                question: "Đơn vị đo dung lượng bộ nhớ nào lớn nhất?",
+                options: [
+                    "KB (Kilobyte)",
+                    "MB (Megabyte)",
+                    "GB (Gigabyte)",
+                    "TB (Terabyte)"
+                ],
+                correct: 3,
+                explanation: "Thứ tự từ nhỏ đến lớn: KB < MB < GB < TB"
+            },
+            {
+                question: "Phần mềm nào sau đây là hệ điều hành?",
+                options: [
+                    "Microsoft Word",
+                    "Windows 10",
+                    "Google Chrome",
+                    "Adobe Photoshop"
+                ],
+                correct: 1,
+                explanation: "Windows 10 là hệ điều hành, còn các phần mềm khác là ứng dụng"
+            },
+            {
+                question: "Thiết bị nào sau đây là thiết bị đầu ra?",
+                options: [
+                    "Chuột",
+                    "Bàn phím",
+                    "Máy in",
+                    "Webcam"
+                ],
+                correct: 2,
+                explanation: "Máy in là thiết bị đầu ra dùng để in tài liệu từ máy tính ra giấy"
+            },
+            {
+                question: "Phím tắt Ctrl+C được sử dụng để làm gì?",
+                options: [
+                    "Cắt (Cut)",
+                    "Sao chép (Copy)",
+                    "Dán (Paste)",
+                    "Hoàn tác (Undo)"
+                ],
+                correct: 1,
+                explanation: "Ctrl+C dùng để sao chép (Copy) văn bản hoặc đối tượng được chọn"
+            },
+            {
+                question: "Tốc độ CPU thường được đo bằng đơn vị nào?",
+                options: [
+                    "MHz hoặc GHz",
+                    "KB hoặc MB",
+                    "Pixel",
+                    "Inch"
+                ],
+                correct: 0,
+                explanation: "Tốc độ CPU được đo bằng MHz (Megahertz) hoặc GHz (Gigahertz)"
+            },
+            {
+                question: "Định dạng file nào thường được sử dụng cho hình ảnh?",
+                options: [
+                    ".txt",
+                    ".mp3",
+                    ".jpg",
+                    ".doc"
+                ],
+                correct: 2,
+                explanation: ".jpg là định dạng file phổ biến cho hình ảnh"
+            },
+            {
+                question: "Ổ cứng có chức năng gì?",
+                options: [
+                    "Xử lý dữ liệu",
+                    "Lưu trữ dữ liệu lâu dài",
+                    "Hiển thị hình ảnh",
+                    "Kết nối mạng"
+                ],
+                correct: 1,
+                explanation: "Ổ cứng dùng để lưu trữ dữ liệu lâu dài, không mất khi tắt máy"
+            },
+            {
+                question: "Phần mềm nào sau đây là trình duyệt web?",
+                options: [
+                    "Microsoft Excel",
+                    "Mozilla Firefox",
+                    "Windows Media Player",
+                    "Adobe Reader"
+                ],
+                correct: 1,
+                explanation: "Mozilla Firefox là trình duyệt web để lướt Internet"
+            },
+            {
+                question: "Virus máy tính là gì?",
+                options: [
+                    "Phần cứng bị hỏng",
+                    "Chương trình có hại",
+                    "Lỗi hệ điều hành",
+                    "Thiết bị ngoại vi"
+                ],
+                correct: 1,
+                explanation: "Virus máy tính là chương trình có hại có thể làm hỏng dữ liệu hoặc hệ thống"
+            },
+            {
+                question: "Phím tắt Ctrl+V được sử dụng để làm gì?",
+                options: [
+                    "Sao chép",
+                    "Cắt", 
+                    "Dán",
+                    "Lưu file"
+                ],
+                correct: 2,
+                explanation: "Ctrl+V dùng để dán (Paste) nội dung đã sao chép hoặc cắt"
+            },
+            {
+                question: "Card đồ họa (VGA) có chức năng gì?",
+                options: [
+                    "Xử lý âm thanh",
+                    "Xử lý hình ảnh và hiển thị",
+                    "Lưu trữ dữ liệu",
+                    "Kết nối Internet"
+                ],
+                correct: 1,
+                explanation: "Card đồ họa (VGA) xử lý hình ảnh và gửi tín hiệu đến màn hình"
+            },
+            {
+                question: "Phần mềm diệt virus có tác dụng gì?",
+                options: [
+                    "Tạo virus mới",
+                    "Phát hiện và loại bỏ virus",
+                    "Tăng tốc máy tính",
+                    "Chỉnh sửa hình ảnh"
+                ],
+                correct: 1,
+                explanation: "Phần mềm diệt virus giúp phát hiện, ngăn chặn và loại bỏ virus khỏi máy tính"
+            }
+        ];
 
         let currentQuestionIndex = 0;
-        let questions = [];
         let userAnswers = [];
-        let timeLeft = 900; // 15 minutes in seconds
+        let timeLeft = 1200; // 20 minutes in seconds
         let timer;
-        let testStarted = false;
+        let testCompleted = false;
 
-        // Initialize test based on URL parameters
         function initializeTest() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const program = urlParams.get('program') || 'elementary';
-            const level = urlParams.get('level') || 'spark1';
-            const test = urlParams.get('test') || '1';
-            
-            const testKey = `${program}-${level}-${test}`;
-            questions = questionsData[testKey] || questionsData['elementary-spark1-1'];
-            
             userAnswers = new Array(questions.length).fill(-1);
-            
-            updateTestInfo(program, level, test);
             displayQuestion();
             startTimer();
-        }
-
-        function updateTestInfo(program, level, test) {
-            const testTitles = {
-                'elementary-spark1-1': 'IC3 GS6 Spark Level 3 - Minitest 4',
-                // Add more titles as needed
-            };
-            
-            const testKey = `${program}-${level}-${test}`;
-            document.getElementById('test-title').textContent = testTitles[testKey] || 'IC3 Minitest';
-            document.getElementById('score').textContent = `0/${questions.length}`;
+            updateScore();
         }
 
         function displayQuestion() {
@@ -529,7 +651,6 @@
         function selectOption(optionIndex) {
             userAnswers[currentQuestionIndex] = optionIndex;
             
-            // Update visual selection
             const options = document.querySelectorAll('.option');
             options.forEach((option, index) => {
                 option.classList.toggle('selected', index === optionIndex);
@@ -553,9 +674,11 @@
             
             const nextBtn = document.getElementById('next-btn');
             if (currentQuestionIndex === questions.length - 1) {
-                nextBtn.textContent = 'Hoàn thành';
+                nextBtn.textContent = 'Kết thúc bài kiểm tra';
+                nextBtn.style.background = 'linear-gradient(45deg, #4caf50, #45a049)';
             } else {
                 nextBtn.textContent = 'Câu tiếp →';
+                nextBtn.style.background = 'linear-gradient(45deg, #4fc3f7, #29b6f6)';
             }
         }
 
@@ -592,6 +715,9 @@
         }
 
         function finishTest() {
+            if (testCompleted) return;
+            testCompleted = true;
+            
             clearInterval(timer);
             
             let correctCount = 0;
@@ -603,7 +729,7 @@
             
             const incorrectCount = questions.length - correctCount;
             const percentage = Math.round((correctCount / questions.length) * 100);
-            const totalTime = 900 - timeLeft;
+            const totalTime = 1200 - timeLeft;
             const timeTaken = `${Math.floor(totalTime / 60)}:${(totalTime % 60).toString().padStart(2, '0')}`;
             
             document.getElementById('final-score').textContent = `${correctCount}/${questions.length}`;
@@ -612,14 +738,19 @@
             document.getElementById('percentage').textContent = `${percentage}%`;
             document.getElementById('time-taken').textContent = timeTaken;
             
-            // Update result message based on performance
             const resultMessage = document.getElementById('result-message');
-            if (percentage >= 80) {
-                resultMessage.textContent = "Xuất sắc! Bạn đã nắm vững kiến thức.";
+            if (percentage >= 90) {
+                resultMessage.textContent = "Xuất sắc! Bạn là học sinh giỏi Tin học!";
+                resultMessage.style.color = "#4caf50";
+            } else if (percentage >= 80) {
+                resultMessage.textContent = "Rất tốt! Bạn đã nắm vững kiến thức cơ bản.";
+                resultMessage.style.color = "#2196f3";
             } else if (percentage >= 60) {
-                resultMessage.textContent = "Tốt! Bạn cần ôn luyện thêm một chút.";
+                resultMessage.textContent = "Khá tốt! Bạn cần ôn luyện thêm một chút.";
+                resultMessage.style.color = "#ff9800";
             } else {
-                resultMessage.textContent = "Cần cố gắng hơn! Hãy ôn lại kiến thức.";
+                resultMessage.textContent = "Cần cố gắng hơn! Hãy ôn lại kiến thức và làm lại.";
+                resultMessage.style.color = "#f44336";
             }
             
             document.getElementById('question-container').style.display = 'none';
@@ -628,9 +759,10 @@
         }
 
         function restartTest() {
+            testCompleted = false;
             currentQuestionIndex = 0;
             userAnswers = new Array(questions.length).fill(-1);
-            timeLeft = 900;
+            timeLeft = 1200;
             
             document.getElementById('question-container').style.display = 'block';
             document.querySelector('.controls').style.display = 'flex';
@@ -641,12 +773,8 @@
             updateScore();
         }
 
-        function goBack() {
-            // Go back to level selection
-            const urlParams = new URLSearchParams(window.location.search);
-            const program = urlParams.get('program') || 'elementary';
-            const level = urlParams.get('level') || 'spark1';
-            window.location.href = `level-test-template.html?program=${program}&level=${level}`;
+        function reviewAnswers() {
+            alert("Chức năng xem lại đáp án sẽ được phát triển trong phiên bản tiếp theo!");
         }
 
         // Initialize when page loads
