@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title id="page-title">IC3 Minitest</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .header-info h1 {
+            color: #2c3e50;
+            font-size: clamp(1.5rem, 3vw, 2rem);
+            margin-bottom: 5px;
+        }
+
+        .header-info p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+        }
+
+        .timer-score {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .timer, .score {
+            background: #f8f9fa;
+            padding: 10px 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid #e9ecef;
+        }
+
+        .timer {
+            border-color: #ff6b6b;
+        }
+
+        .timer-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #ff6b6b;
+        }
+
+        .score-value {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .test-container {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .progress-bar {
+            background: #f0f0f0;
+            height: 8px;
+            border-radius: 4px;
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+
+        .progress {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            height: 100%;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .question-container {
+            margin-bottom: 30px;
+        }
+
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .question-number {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+
+        .question-text {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 25px;
+            line-height: 1.7;
+        }
+
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .option:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+
+        .option.selected {
+            background: #e8f5e8;
+            border-color: #28a745;
+        }
+
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
+        .option-label {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        .option.selected .option-label {
+            background: #28a745;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #f0f0f0;
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+
+        .result-container {
+            display: none;
+            text-align: center;
+            padding: 40px;
+        }
+
+        .result-container.show {
+            display: block;
+        }
+
+        .result-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+
+        .result-message {
+            font-size: 1.3rem;
+            color: #2c3e50;
+            margin-bottom: 30px;
+        }
+
+        .result-details {
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .result-item {
+            text-align: center;
+        }
+
+        .result-item-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .result-item-label {
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .timer-score {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .test-container {
+                padding: 20px;
+            }
+
+            .question-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .controls {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .btn {
+                width: 100%;
+                padding: 15px;
+            }
+
+            .result-details {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-info">
+                <h1 id="test-title">IC3 GS6 Level 2 - Minitest 2</h1>
+                <p id="test-description">Kiến thức cơ bản về máy tính</p>
+            </div>
+            <div class="timer-score">
+                <div class="timer">
+                    <div class="timer-value" id="timer">15:00</div>
+                    <div style="font-size: 0.8rem; color: #666;">Thời gian</div>
+                </div>
+                <div class="score">
+                    <div class="score-value" id="score">0/10</div>
+                    <div style="font-size: 0.8rem; color: #666;">Điểm</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-container">
+            <div class="progress-bar">
+                <div class="progress" id="progress" style="width: 10%"></div>
+            </div>
+
+            <div id="question-container" class="question-container">
+                <div class="question-header">
+                    <div class="question-number" id="question-number">Câu 1</div>
+                    <div style="color: #7f8c8d; font-size: 0.9rem;" id="question-count">1 / 10</div>
+                </div>
+
+                <div class="question-text" id="question-text">
+                    Đang tải câu hỏi...
+                </div>
+
+                <div class="options" id="options-container">
+                    <!-- Options will be populated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="btn btn-secondary" id="prev-btn" onclick="previousQuestion()" disabled>
+                    ← Câu trước
+                </button>
+                <button class="btn" id="next-btn" onclick="nextQuestion()">
+                    Câu tiếp →
+                </button>
+            </div>
+
+            <div id="result-container" class="result-container">
+                <div class="result-score" id="final-score">8/10</div>
+                <div class="result-message" id="result-message">Chúc mừng! Bạn đã hoàn thành bài test.</div>
+                
+                <div class="result-details">
+                    <div class="result-item">
+                        <div class="result-item-value" id="correct-count">8</div>
+                        <div class="result-item-label">Câu đúng</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-item-value" id="incorrect-count">2</div>
+                        <div class="result-item-label">Câu sai</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-item-value" id="percentage">80%</div>
+                        <div class="result-item-label">Tỷ lệ đúng</div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-item-value" id="time-taken">12:30</div>
+                        <div class="result-item-label">Thời gian</div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 30px; display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+                    <button class="btn" onclick="restartTest()">🔄 Làm lại</button>
+                    <button class="btn btn-secondary" onclick="goBack()">🏠 Chọn bài khác</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Sample questions data - thay thế bằng dữ liệu thực tế từ server hoặc API
+        const questionsData = {
+            'elementary-spark1-1': [
+                {
+                    question: "Thiết bị nào được sử dụng để nhập văn bản vào máy tính?",
+                    options: ["Chuột", "Bàn phím", "Màn hình", "Loa"],
+                    correct: 1
+                },
+                {
+                    question: "RAM là viết tắt của từ gì?",
+                    options: ["Random Access Memory", "Read Access Memory", "Rapid Access Memory", "Real Access Memory"],
+                    correct: 0
+                },
+                {
+                    question: "Hệ điều hành nào sau đây là phổ biến nhất?",
+                    options: ["Linux", "Windows", "MacOS", "Android"],
+                    correct: 1
+                },
+                {
+                    question: "Đơn vị đo dung lượng bộ nhớ lớn nhất trong các đơn vị sau?",
+                    options: ["KB", "MB", "GB", "TB"],
+                    correct: 3
+                },
+                {
+                    question: "CPU viết tắt của từ gì?",
+                    options: ["Computer Processing Unit", "Central Processing Unit", "Central Program Unit", "Computer Program Unit"],
+                    correct: 1
+                },
+                {
+                    question: "Thiết bị nào sau đây là thiết bị đầu ra?",
+                    options: ["Bàn phím", "Chuột", "Máy in", "Microphone"],
+                    correct: 2
+                },
+                {
+                    question: "Phần mềm nào sau đây là trình duyệt web?",
+                    options: ["Microsoft Word", "Google Chrome", "Adobe Photoshop", "Windows Media Player"],
+                    correct: 1
+                },
+                {
+                    question: "Định dạng file nào thường được sử dụng cho hình ảnh?",
+                    options: [".txt", ".doc", ".jpg", ".mp3"],
+                    correct: 2
+                },
+                {
+                    question: "Phím tắt Ctrl+C được sử dụng để làm gì?",
+                    options: ["Dán", "Sao chép", "Cắt", "Hoàn tác"],
+                    correct: 1
+                },
+                {
+                    question: "Thiết bị nào sau đây được sử dụng để lưu trữ dữ liệu lâu dài?",
+                    options: ["RAM", "CPU", "Ổ cứng", "Màn hình"],
+                    correct: 2
+                }
+            ]
+        };
+
+        let currentQuestionIndex = 0;
+        let questions = [];
+        let userAnswers = [];
+        let timeLeft = 900; // 15 minutes in seconds
+        let timer;
+        let testStarted = false;
+
+        // Initialize test based on URL parameters
+        function initializeTest() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const program = urlParams.get('program') || 'elementary';
+            const level = urlParams.get('level') || 'spark1';
+            const test = urlParams.get('test') || '1';
+            
+            const testKey = `${program}-${level}-${test}`;
+            questions = questionsData[testKey] || questionsData['elementary-spark1-1'];
+            
+            userAnswers = new Array(questions.length).fill(-1);
+            
+            updateTestInfo(program, level, test);
+            displayQuestion();
+            startTimer();
+        }
+
+        function updateTestInfo(program, level, test) {
+            const testTitles = {
+                'elementary-spark1-1': 'IC3 GS6 Level 2 - Minitest 2',
+                // Add more titles as needed
+            };
+            
+            const testKey = `${program}-${level}-${test}`;
+            document.getElementById('test-title').textContent = testTitles[testKey] || 'IC3 Minitest';
+            document.getElementById('score').textContent = `0/${questions.length}`;
+        }
+
+        function displayQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                finishTest();
+                return;
+            }
+
+            const question = questions[currentQuestionIndex];
+            
+            document.getElementById('question-number').textContent = `Câu ${currentQuestionIndex + 1}`;
+            document.getElementById('question-count').textContent = `${currentQuestionIndex + 1} / ${questions.length}`;
+            document.getElementById('question-text').textContent = question.question;
+            
+            const optionsContainer = document.getElementById('options-container');
+            optionsContainer.innerHTML = '';
+            
+            question.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.className = 'option';
+                optionElement.onclick = () => selectOption(index);
+                
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionElement.classList.add('selected');
+                }
+                
+                optionElement.innerHTML = `
+                    <div class="option-label">${String.fromCharCode(65 + index)}</div>
+                    <div>${option}</div>
+                `;
+                
+                optionsContainer.appendChild(optionElement);
+            });
+            
+            updateProgress();
+            updateControls();
+        }
+
+        function selectOption(optionIndex) {
+            userAnswers[currentQuestionIndex] = optionIndex;
+            
+            // Update visual selection
+            const options = document.querySelectorAll('.option');
+            options.forEach((option, index) => {
+                option.classList.toggle('selected', index === optionIndex);
+            });
+            
+            updateScore();
+        }
+
+        function updateScore() {
+            const answered = userAnswers.filter(answer => answer !== -1).length;
+            document.getElementById('score').textContent = `${answered}/${questions.length}`;
+        }
+
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function updateControls() {
+            document.getElementById('prev-btn').disabled = currentQuestionIndex === 0;
+            
+            const nextBtn = document.getElementById('next-btn');
+            if (currentQuestionIndex === questions.length - 1) {
+                nextBtn.textContent = 'Hoàn thành';
+            } else {
+                nextBtn.textContent = 'Câu tiếp →';
+            }
+        }
+
+        function nextQuestion() {
+            if (currentQuestionIndex < questions.length - 1) {
+                currentQuestionIndex++;
+                displayQuestion();
+            } else {
+                finishTest();
+            }
+        }
+
+        function previousQuestion() {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                displayQuestion();
+            }
+        }
+
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    finishTest();
+                }
+            }, 1000);
+        }
+
+        function finishTest() {
+            clearInterval(timer);
+            
+            let correctCount = 0;
+            questions.forEach((question, index) => {
+                if (userAnswers[index] === question.correct) {
+                    correctCount++;
+                }
+            });
+            
+            const incorrectCount = questions.length - correctCount;
+            const percentage = Math.round((correctCount / questions.length) * 100);
+            const totalTime = 900 - timeLeft;
+            const timeTaken = `${Math.floor(totalTime / 60)}:${(totalTime % 60).toString().padStart(2, '0')}`;
+            
+            document.getElementById('final-score').textContent = `${correctCount}/${questions.length}`;
+            document.getElementById('correct-count').textContent = correctCount;
+            document.getElementById('incorrect-count').textContent = incorrectCount;
+            document.getElementById('percentage').textContent = `${percentage}%`;
+            document.getElementById('time-taken').textContent = timeTaken;
+            
+            // Update result message based on performance
+            const resultMessage = document.getElementById('result-message');
+            if (percentage >= 80) {
+                resultMessage.textContent = "Xuất sắc! Bạn đã nắm vững kiến thức.";
+            } else if (percentage >= 60) {
+                resultMessage.textContent = "Tốt! Bạn cần ôn luyện thêm một chút.";
+            } else {
+                resultMessage.textContent = "Cần cố gắng hơn! Hãy ôn lại kiến thức.";
+            }
+            
+            document.getElementById('question-container').style.display = 'none';
+            document.querySelector('.controls').style.display = 'none';
+            document.getElementById('result-container').classList.add('show');
+        }
+
+        function restartTest() {
+            currentQuestionIndex = 0;
+            userAnswers = new Array(questions.length).fill(-1);
+            timeLeft = 900;
+            
+            document.getElementById('question-container').style.display = 'block';
+            document.querySelector('.controls').style.display = 'flex';
+            document.getElementById('result-container').classList.remove('show');
+            
+            displayQuestion();
+            startTimer();
+            updateScore();
+        }
+
+        function goBack() {
+            // Go back to level selection
+            const urlParams = new URLSearchParams(window.location.search);
+            const program = urlParams.get('program') || 'elementary';
+            const level = urlParams.get('level') || 'spark1';
+            window.location.href = `level-test-template.html?program=${program}&level=${level}`;
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', initializeTest);
+    </script>
+</body>
+</html>
