@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Thông Tin Học Sinh Lớp 6</title>
+    <title>Hệ Thống Quản Lý Học Viên Lớp 6</title>
     <style>
         * {
             margin: 0;
@@ -47,7 +47,7 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1400px;
             margin: 0 auto;
             padding: 20px;
             position: relative;
@@ -85,6 +85,46 @@
             color: #666;
             font-size: 1.2rem;
             font-weight: 300;
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.7);
+            border: none;
+            padding: 15px 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .tab-content {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(20px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
         .form-container {
@@ -165,15 +205,6 @@
             transform: translateY(-2px);
         }
 
-        .form-group textarea {
-            resize: vertical;
-            min-height: 120px;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
         .avatar-upload {
             text-align: center;
             margin-bottom: 30px;
@@ -229,48 +260,127 @@
             box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
         }
 
-        .upload-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .upload-btn:hover::before {
-            left: 100%;
-        }
-
-        .submit-btn {
-            background: linear-gradient(135deg, #48bb78, #38a169);
-            color: white;
+        .btn {
             border: none;
-            padding: 18px 40px;
-            border-radius: 25px;
+            padding: 15px 30px;
+            border-radius: 15px;
             cursor: pointer;
-            font-weight: 700;
-            font-size: 1.2rem;
+            font-weight: 600;
+            font-size: 1rem;
             transition: all 0.3s ease;
-            display: block;
-            margin: 30px auto 0;
+            margin: 5px;
             position: relative;
             overflow: hidden;
-            min-width: 200px;
         }
 
-        .submit-btn:hover {
+        .btn-primary {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #f56565, #e53e3e);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(135deg, #ed8936, #dd6b20);
+            color: white;
+        }
+
+        .btn:hover {
             transform: translateY(-3px);
-            box-shadow: 0 15px 35px rgba(72, 187, 120, 0.4);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
         }
 
-        .submit-btn:disabled {
+        .btn:disabled {
             background: #a0aec0;
             cursor: not-allowed;
             transform: none;
             box-shadow: none;
+        }
+
+        .student-list {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .search-bar {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #e2e8f0;
+            border-radius: 15px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #a0aec0;
+            font-size: 1.2rem;
+        }
+
+        .student-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .student-table th,
+        .student-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .student-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        .student-table tr:hover {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .student-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #e2e8f0;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn-small {
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            border-radius: 10px;
         }
 
         .loading {
@@ -294,16 +404,59 @@
             100% { transform: rotate(360deg); }
         }
 
-        .success-message {
+        .message {
+            padding: 15px 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            font-weight: 600;
+            text-align: center;
+            display: none;
+        }
+
+        .message.success {
             background: linear-gradient(135deg, #c6f6d5, #9ae6b4);
             color: #22543d;
-            padding: 20px;
-            border-radius: 15px;
-            margin-top: 20px;
-            text-align: center;
-            font-weight: 600;
-            display: none;
             border: 1px solid #9ae6b4;
+        }
+
+        .message.error {
+            background: linear-gradient(135deg, #fed7d7, #feb2b2);
+            color: #742a2a;
+            border: 1px solid #feb2b2;
+        }
+
+        .message.info {
+            background: linear-gradient(135deg, #bee3f8, #90cdf4);
+            color: #2a4365;
+            border: 1px solid #90cdf4;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #a0aec0;
+        }
+
+        .empty-state .icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .empty-state h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: #4a5568;
+        }
+
+        .required {
+            color: #e53e3e;
+        }
+
+        .error-message {
+            color: #e53e3e;
+            font-size: 0.875rem;
+            margin-top: 5px;
+            display: none;
         }
 
         .iframe-container {
@@ -355,25 +508,22 @@
                 gap: 20px;
             }
 
+            .tabs {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .student-table {
+                font-size: 0.875rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
             .iframe-wrapper iframe {
                 height: 400px;
             }
-        }
-
-        .required {
-            color: #e53e3e;
-        }
-
-        .error {
-            border-color: #e53e3e !important;
-            box-shadow: 0 0 0 3px rgba(229, 62, 62, 0.1) !important;
-        }
-
-        .error-message {
-            color: #e53e3e;
-            font-size: 0.875rem;
-            margin-top: 5px;
-            display: none;
         }
     </style>
 </head>
@@ -382,65 +532,793 @@
     
     <div class="container">
         <div class="header">
-            <h1>THÔNG TIN HỌC SINH LỚP 6</h1>
-            <p>Vui lòng điền đầy đủ thông tin để tham gia</p>
+            <h1>HỆ THỐNG QUẢN LÝ HỌC VIÊN IC3</h1>
+            <p>Quản lý thông tin học sinh lớp 6 một cách dễ dàng và hiệu quả</p>
         </div>
 
-        <div class="form-container">
-            <h2 class="form-title">Thông Tin Cá Nhân</h2>
-            
-            <form id="studentForm">
-                <div class="avatar-upload">
-                    <div class="avatar-preview" id="avatarPreview">
-                        <span class="avatar-placeholder">👤</span>
+        <div class="tabs">
+            <button class="tab-btn" onclick="switchTab('lesson')">📚 Luyện Thi</button>
+            <button class="tab-btn active" onclick="switchTab('register')">📝 Thông Tin</button>
+            <button class="tab-btn" onclick="switchTab('manage')">👥 Quản Lý</button>
+        </div>
+
+        <div id="message" class="message"></div>
+
+        <!-- Tab Thông Tin -->
+        <div id="register" class="tab-content active">
+            <div class="form-container">
+                <h2 class="form-title">Thông Tin Học Viên</h2>
+                
+                <form id="studentForm">
+                    <div class="avatar-upload">
+                        <div class="avatar-preview" id="avatarPreview">
+                            <span class="avatar-placeholder">👤</span>
+                        </div>
+                        <input type="file" id="avatarInput" accept="image/*" style="display: none;">
+                        <button type="button" class="upload-btn" onclick="document.getElementById('avatarInput').click()">
+                            📷 Tải ảnh đại diện
+                        </button>
                     </div>
-                    <input type="file" id="avatarInput" accept="image/*" style="display: none;">
-                    <button type="button" class="upload-btn" onclick="document.getElementById('avatarInput').click()">
-                        📷 Tải ảnh đại diện
+
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="fullName">Họ và tên <span class="required">*</span></label>
+                            <input type="text" id="fullName" name="fullName" required>
+                            <div class="error-message">Vui lòng nhập họ và tên</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="school">Trường học <span class="required">*</span></label>
+                            <input type="text" id="school" name="school" required>
+                            <div class="error-message">Vui lòng nhập tên trường</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="parentPhone">SĐT phụ huynh <span class="required">*</span></label>
+                            <input type="tel" id="parentPhone" name="parentPhone" required>
+                            <div class="error-message">Vui lòng nhập số điện thoại phụ huynh</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="score">Score</label>
+                            <input type="number" id="score" name="score">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="birthDate">Ngày sinh</label>
+                            <input type="date" id="birthDate" name="birthDate">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="address">Địa chỉ</label>
+                            <input type="text" id="address" name="address">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" id="submitBtn">
+                        <span class="btn-text">💾 Lưu Thông Tin</span>
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <span>Đang lưu...</span>
+                        </div>
                     </button>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label for="fullName">Họ và tên <span class="required">*</span></label>
-                        <input type="text" id="fullName" name="fullName" required>
-                        <div class="error-message">Vui lòng nhập họ và tên</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="school">Trường học <span class="required">*</span></label>
-                        <input type="text" id="school" name="school" required>
-                        <div class="error-message">Vui lòng nhập tên trường</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="parentPhone">SĐT phụ huynh <span class="required">*</span></label>
-                        <input type="tel" id="parentPhone" name="parentPhone" required>
-                        <div class="error-message">Vui lòng nhập số điện thoại phụ huynh</div>
-                    </div>
-
-                </div>
-
-                <button type="submit" class="submit-btn" id="submitBtn">
-                    <span class="btn-text">💾 Lưu Thông Tin</span>
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <span>Đang lưu...</span>
-                    </div>
-                </button>
-
-                <div class="success-message" id="successMessage">
-                    ✅ Thông tin đã được lưu thành công vào Google Sheets!
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
 
-        <div class="iframe-container">
-            <h3 class="iframe-title">📚 Bài Học IC3 - Lớp 6</h3>
-            <div class="iframe-wrapper">
-                <iframe src="https://wit.id.vn/THCS/Class6/GS6_LV1_TEST4/"></iframe>
+        <!-- Tab Quản Lý -->
+        <div id="manage" class="tab-content">
+            <div class="student-list">
+                <div class="form-title">Danh Sách Học Viên</div>
+                
+                <div class="search-bar">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên, trường, hoặc số điện thoại...">
+                    <span class="search-icon">🔍</span>
+                </div>
+
+                <button class="btn btn-secondary" onclick="loadStudents()">🔄 Tải lại danh sách</button>
+
+                <div id="studentTableContainer">
+                    <div class="empty-state">
+                        <div class="icon">📋</div>
+                        <h3>Chưa có dữ liệu</h3>
+                        <p>Nhấn "Tải lại danh sách" để xem danh sách học viên</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tab Luyện Thi -->
+        <div id="lesson" class="tab-content">
+            <div class="iframe-container">
+                <h3 class="iframe-title">📚 Bài Học IC3 - Lớp 6</h3>
+                <div class="iframe-wrapper">
+                    <iframe src="https://wit.id.vn/THCS/Class6/GS6_LV1_TEST4/"></iframe>
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Cấu hình API
+        const API_CONFIG = {
+            baseURL: 'https://jsonplaceholder.typicode.com', // Thay đổi thành API thực tế
+            endpoints: {
+                students: '/users' // Sử dụng endpoint users để demo
+            }
+        };
+
+        // Biến toàn cục
+        let students = [];
+        let editingStudent = null;
+        let currentAvatar = null;
+
+        // Khởi tạo
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            setupEventListeners();
+            loadStudents();
+        }
+
+        function setupEventListeners() {
+            // Form submit
+            document.getElementById('studentForm').addEventListener('submit', handleFormSubmit);
+            
+            // Avatar upload
+            document.getElementById('avatarInput').addEventListener('change', handleAvatarUpload);
+            
+            // Search
+            document.getElementById('searchInput').addEventListener('input', debounce(handleSearch, 300));
+        }
+
+        // Tab switching
+        function switchTab(tabName) {
+            // Ẩn tất cả tab content
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Bỏ active khỏi tất cả tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Hiển thị tab được chọn
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+            
+            // Load data nếu cần
+            if (tabName === 'manage') {
+                loadStudents();
+            }
+        }
+
+        // Xử lý upload avatar
+        function handleAvatarUpload(event) {
+            const file = event.target.files[0];
+            if (file) {
+                // Kiểm tra kích thước file (max 5MB)
+                if (file.size > 5 * 1024 * 1024) {
+                    showMessage('Kích thước ảnh không được vượt quá 5MB', 'error');
+                    return;
+                }
+
+                // Kiểm tra định dạng file
+                if (!file.type.startsWith('image/')) {
+                    showMessage('Vui lòng chọn file ảnh hợp lệ', 'error');
+                    return;
+                }
+
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    currentAvatar = e.target.result;
+                    const preview = document.getElementById('avatarPreview');
+                    preview.innerHTML = `<img src="${currentAvatar}" alt="Avatar">`;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Xử lý submit form
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+            
+            if (!validateForm()) {
+                return;
+            }
+
+            const formData = new FormData(event.target);
+            const studentData = {
+                name: formData.get('fullName'),
+                username: formData.get('fullName').toLowerCase().replace(/\s+/g, ''),
+                score: formData.get('score') || '',
+                phone: formData.get('parentPhone'),
+                website: formData.get('school'),
+                address: {
+                    street: formData.get('address') || '',
+                    city: '',
+                    zipcode: ''
+                },
+                company: {
+                    name: formData.get('school')
+                },
+                avatar: currentAvatar
+            };
+
+            try {
+                setButtonLoading('submitBtn', true);
+                
+                if (editingStudent) {
+                    await updateStudent(editingStudent.id, studentData);
+                } else {
+                    await createStudent(studentData);
+                }
+                
+                resetForm();
+                loadStudents();
+                
+            } catch (error) {
+                console.error('Error:', error);
+                showMessage('Có lỗi xảy ra khi lưu thông tin: ' + error.message, 'error');
+            } finally {
+                setButtonLoading('submitBtn', false);
+            }
+        }
+
+        // Validate form
+        function validateForm() {
+            const requiredFields = ['fullName', 'school', 'parentPhone'];
+            let isValid = true;
+
+            requiredFields.forEach(fieldName => {
+                const field = document.getElementById(fieldName);
+                const errorMsg = field.parentNode.querySelector('.error-message');
+                
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    if (errorMsg) errorMsg.style.display = 'block';
+                    isValid = false;
+                } else {
+                    field.classList.remove('error');
+                    if (errorMsg) errorMsg.style.display = 'none';
+                }
+            });
+
+            // Validate phone number
+            const phone = document.getElementById('parentPhone').value.trim();
+            if (phone && !/^[0-9]{10,11}$/.test(phone)) {
+                showMessage('Số điện thoại không hợp lệ', 'error');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        // API Functions
+        async function createStudent(studentData) {
+            const response = await fetch(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.students}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(studentData)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            showMessage('✅ Thêm học viên thành công!', 'success');
+            return result;
+        }
+
+        async function loadStudents() {
+            try {
+                showMessage('Đang tải danh sách...', 'info');
+                
+                const response = await fetch(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.students}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                students = await response.json();
+                renderStudentTable(students);
+                hideMessage();
+                
+            } catch (error) {
+                console.error('Error loading students:', error);
+                showMessage('Có lỗi khi tải danh sách học viên: ' + error.message, 'error');
+                renderEmptyState();
+            }
+        }
+
+        async function updateStudent(id, studentData) {
+            const response = await fetch(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.students}/${id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(studentData)
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const result = await response.json();
+            showMessage('✅ Cập nhật thông tin thành công!', 'success');
+            return result;
+        }
+
+        async function deleteStudent(id) {
+            if (!confirm('Bạn có chắc chắn muốn xóa học viên này?')) {
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_CONFIG.baseURL}${API_CONFIG.endpoints.students}/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                showMessage('✅ Xóa học viên thành công!', 'success');
+                loadStudents();
+                
+            } catch (error) {
+                console.error('Error deleting student:', error);
+                showMessage('Có lỗi khi xóa học viên: ' + error.message, 'error');
+            }
+        }
+
+        // Render functions
+        function renderStudentTable(studentsData) {
+            const container = document.getElementById('studentTableContainer');
+            
+            if (!studentsData || studentsData.length === 0) {
+                renderEmptyState();
+                return;
+            }
+
+            const tableHTML = `
+                <table class="student-table">
+                    <thead>
+                        <tr>
+                            <th>Avatar</th>
+                            <th>Họ và tên</th>
+                            <th>Trường học</th>
+                            <th>SĐT phụ huynh</th>
+                            <th>Điểm số</th>
+                            <th>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${studentsData.map(student => `
+                            <tr>
+                                <td>
+                                    ${student.avatar ? 
+                                        `<img src="${student.avatar}" alt="Avatar" class="student-avatar">` : 
+                                        '<div class="student-avatar" style="background: #f0f0f0; display: flex; align-items: center; justify-content: center; color: #999;">👤</div>'
+                                    }
+                                </td>
+                                <td><strong>${student.name}</strong></td>
+                                <td>${student.company?.name || student.website || 'N/A'}</td>
+                                <td>${student.phone || 'N/A'}</td>
+                                <td>${student.score || 'N/A'}</td>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="btn btn-warning btn-small" onclick="editStudent(${student.id})">
+                                            ✏️ Sửa
+                                        </button>
+                                        <button class="btn btn-danger btn-small" onclick="deleteStudent(${student.id})">
+                                            🗑️ Xóa
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            `;
+
+            container.innerHTML = tableHTML;
+        }
+
+        function renderEmptyState() {
+            const container = document.getElementById('studentTableContainer');
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon">📋</div>
+                    <h3>Chưa có dữ liệu</h3>
+                    <p>Danh sách học viên trống hoặc chưa được tải</p>
+                </div>
+            `;
+        }
+
+        // Edit student
+        function editStudent(id) {
+            const student = students.find(s => s.id === id);
+            if (!student) {
+                showMessage('Không tìm thấy thông tin học viên', 'error');
+                return;
+            }
+
+            editingStudent = student;
+            
+            // Fill form with student data
+            document.getElementById('fullName').value = student.name || '';
+            document.getElementById('school').value = student.company?.name || student.website || '';
+            document.getElementById('parentPhone').value = student.phone || '';
+            document.getElementById('score').value = student.score || '';
+            document.getElementById('address').value = student.address?.street || '';
+            
+            // Set avatar if exists
+            if (student.avatar) {
+                currentAvatar = student.avatar;
+                const preview = document.getElementById('avatarPreview');
+                preview.innerHTML = `<img src="${student.avatar}" alt="Avatar">`;
+            }
+
+            // Change form title and button text
+            document.querySelector('.form-title').textContent = 'Chỉnh Sửa Thông Tin Học Viên';
+            document.querySelector('#submitBtn .btn-text').textContent = '💾 Cập Nhật Thông Tin';
+            
+            // Switch to register tab
+            switchTab('register');
+            document.querySelector('[onclick="switchTab(\'register\')"]').click();
+            
+            // Scroll to form
+            document.querySelector('.form-container').scrollIntoView({ 
+                behavior: 'smooth', 
+                block: 'start' 
+            });
+
+            showMessage('Đang chỉnh sửa thông tin học viên: ' + student.name, 'info');
+        }
+
+        // Search functionality
+        function handleSearch(event) {
+            const searchTerm = event.target.value.toLowerCase().trim();
+            
+            if (!searchTerm) {
+                renderStudentTable(students);
+                return;
+            }
+
+            const filteredStudents = students.filter(student => {
+                return (
+                    student.name?.toLowerCase().includes(searchTerm) ||
+                    student.phone?.toLowerCase().includes(searchTerm) ||
+                    student.score?.toLowerCase().includes(searchTerm) ||
+                    student.company?.name?.toLowerCase().includes(searchTerm) ||
+                    student.website?.toLowerCase().includes(searchTerm)
+                );
+            });
+
+            renderStudentTable(filteredStudents);
+            
+            if (filteredStudents.length === 0) {
+                showMessage(`Không tìm thấy kết quả cho: "${searchTerm}"`, 'info');
+            }
+        }
+
+        // Reset form
+        function resetForm() {
+            document.getElementById('studentForm').reset();
+            document.getElementById('avatarPreview').innerHTML = '<span class="avatar-placeholder">👤</span>';
+            
+            // Reset form state
+            editingStudent = null;
+            currentAvatar = null;
+            
+            // Reset form title and button
+            document.querySelector('.form-title').textContent = 'Thông Tin Học Viên';
+            document.querySelector('#submitBtn .btn-text').textContent = '💾 Lưu Thông Tin';
+            
+            // Clear any error states
+            document.querySelectorAll('.form-group input').forEach(input => {
+                input.classList.remove('error');
+            });
+            
+            document.querySelectorAll('.error-message').forEach(msg => {
+                msg.style.display = 'none';
+            });
+        }
+
+        // Utility functions
+        function showMessage(text, type = 'info') {
+            const messageEl = document.getElementById('message');
+            messageEl.textContent = text;
+            messageEl.className = `message ${type}`;
+            messageEl.style.display = 'block';
+            
+            // Auto hide success and info messages after 5 seconds
+            if (type === 'success' || type === 'info') {
+                setTimeout(() => {
+                    hideMessage();
+                }, 5000);
+            }
+        }
+
+        function hideMessage() {
+            const messageEl = document.getElementById('message');
+            messageEl.style.display = 'none';
+        }
+
+        function setButtonLoading(buttonId, loading) {
+            const button = document.getElementById(buttonId);
+            const btnText = button.querySelector('.btn-text');
+            const loadingEl = button.querySelector('.loading');
+            
+            if (loading) {
+                btnText.style.display = 'none';
+                loadingEl.style.display = 'flex';
+                button.disabled = true;
+            } else {
+                btnText.style.display = 'inline';
+                loadingEl.style.display = 'none';
+                button.disabled = false;
+            }
+        }
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Export/Import functions (bonus features)
+        function exportStudents() {
+            try {
+                const dataStr = JSON.stringify(students, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                
+                const link = document.createElement('a');
+                link.href = URL.createObjectURL(dataBlob);
+                link.download = `students_${new Date().toISOString().split('T')[0]}.json`;
+                link.click();
+                
+                showMessage('✅ Xuất dữ liệu thành công!', 'success');
+            } catch (error) {
+                showMessage('Có lỗi khi xuất dữ liệu: ' + error.message, 'error');
+            }
+        }
+
+        function importStudents(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importedData = JSON.parse(e.target.result);
+                    
+                    if (!Array.isArray(importedData)) {
+                        throw new Error('Dữ liệu không hợp lệ');
+                    }
+                    
+                    students = importedData;
+                    renderStudentTable(students);
+                    showMessage('✅ Nhập dữ liệu thành công!', 'success');
+                    
+                } catch (error) {
+                    showMessage('Có lỗi khi nhập dữ liệu: ' + error.message, 'error');
+                }
+            };
+            
+            reader.readAsText(file);
+        }
+
+        // Advanced search and filter functions
+        function advancedSearch() {
+            // Implementation for advanced search with multiple criteria
+            console.log('Advanced search functionality can be implemented here');
+        }
+
+        function sortStudents(field, direction = 'asc') {
+            const sortedStudents = [...students].sort((a, b) => {
+                let aVal = a[field] || '';
+                let bVal = b[field] || '';
+                
+                if (field === 'school') {
+                    aVal = a.company?.name || a.website || '';
+                    bVal = b.company?.name || b.website || '';
+                }
+                
+                if (typeof aVal === 'string') {
+                    aVal = aVal.toLowerCase();
+                    bVal = bVal.toLowerCase();
+                }
+                
+                if (direction === 'asc') {
+                    return aVal > bVal ? 1 : -1;
+                } else {
+                    return aVal < bVal ? 1 : -1;
+                }
+            });
+            
+            renderStudentTable(sortedStudents);
+        }
+
+        // Statistics functions
+        function getStudentStats() {
+            const stats = {
+                total: students.length,
+                withScore: students.filter(s => s.score).length,
+                withAvatar: students.filter(s => s.avatar).length,
+                schools: [...new Set(students.map(s => s.company?.name || s.website).filter(Boolean))].length
+            };
+            
+            return stats;
+        }
+
+        function displayStats() {
+            const stats = getStudentStats();
+            const statsHTML = `
+                <div class="stats-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                    <div class="stat-card" style="background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 20px; border-radius: 15px; text-align: center;">
+                        <h3 style="margin: 0; font-size: 2rem;">${stats.total}</h3>
+                        <p style="margin: 5px 0 0;">Tổng học viên</p>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #48bb78, #38a169); color: white; padding: 20px; border-radius: 15px; text-align: center;">
+                        <h3 style="margin: 0; font-size: 2rem;">${stats.withScore}</h3>
+                        <p style="margin: 5px 0 0;">Có score</p>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #ed8936, #dd6b20); color: white; padding: 20px; border-radius: 15px; text-align: center;">
+                        <h3 style="margin: 0; font-size: 2rem;">${stats.withAvatar}</h3>
+                        <p style="margin: 5px 0 0;">Có avatar</p>
+                    </div>
+                    <div class="stat-card" style="background: linear-gradient(135deg, #f56565, #e53e3e); color: white; padding: 20px; border-radius: 15px; text-align: center;">
+                        <h3 style="margin: 0; font-size: 2rem;">${stats.schools}</h3>
+                        <p style="margin: 5px 0 0;">Trường học</p>
+                    </div>
+                </div>
+            `;
+            
+            const container = document.getElementById('studentTableContainer');
+            container.insertAdjacentHTML('afterbegin', statsHTML);
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            // Ctrl/Cmd + S: Save form
+            if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+                e.preventDefault();
+                const form = document.getElementById('studentForm');
+                if (form && document.getElementById('register').classList.contains('active')) {
+                    form.dispatchEvent(new Event('submit'));
+                }
+            }
+            
+            // Ctrl/Cmd + R: Reload students
+            if ((e.ctrlKey || e.metaKey) && e.key === 'r') {
+                e.preventDefault();
+                loadStudents();
+            }
+            
+            // Escape: Reset form
+            if (e.key === 'Escape') {
+                resetForm();
+                hideMessage();
+            }
+        });
+
+        // Validation improvements
+        function setupRealTimeValidation() {
+            const inputs = document.querySelectorAll('#studentForm input[required]');
+            
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+                
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('error')) {
+                        validateField(this);
+                    }
+                });
+            });
+        }
+
+        function validateField(field) {
+            const errorMsg = field.parentNode.querySelector('.error-message');
+            
+            if (!field.value.trim()) {
+                field.classList.add('error');
+                if (errorMsg) errorMsg.style.display = 'block';
+                return false;
+            } else {
+                field.classList.remove('error');
+                if (errorMsg) errorMsg.style.display = 'none';
+                return true;
+            }
+        }
+
+        // Initialize real-time validation after DOM load
+        document.addEventListener('DOMContentLoaded', function() {
+            setupRealTimeValidation();
+        });
+
+        // Auto-save functionality (optional)
+        let autoSaveTimeout;
+        function setupAutoSave() {
+            const form = document.getElementById('studentForm');
+            const inputs = form.querySelectorAll('input, select, textarea');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    clearTimeout(autoSaveTimeout);
+                    autoSaveTimeout = setTimeout(() => {
+                        saveFormData();
+                    }, 2000); // Auto-save after 2 seconds of inactivity
+                });
+            });
+        }
+
+        function saveFormData() {
+            const formData = new FormData(document.getElementById('studentForm'));
+            const data = Object.fromEntries(formData.entries());
+            data.avatar = currentAvatar;
+            
+            // Save to localStorage as draft
+            try {
+                localStorage.setItem('studentFormDraft', JSON.stringify(data));
+                console.log('Form auto-saved');
+            } catch (error) {
+                console.warn('Auto-save failed:', error);
+            }
+        }
+
+        function loadFormData() {
+            try {
+                const savedData = localStorage.getItem('studentFormDraft');
+                if (savedData) {
+                    const data = JSON.parse(savedData);
+                    
+                    Object.keys(data).forEach(key => {
+                        const field = document.getElementById(key);
+                        if (field && data[key]) {
+                            field.value = data[key];
+                        }
+                    });
+                    
+                    if (data.avatar) {
+                        currentAvatar = data.avatar;
+                        document.getElementById('avatarPreview').innerHTML = `<img src="${data.avatar}" alt="Avatar">`;
+                    }
+                }
+            } catch (error) {
+                console.warn('Failed to load saved form data:', error);
+            }
+        }
+
+        function clearSavedFormData() {
+            try {
+                localStorage.removeItem('studentFormDraft');
+            } catch (error) {
+                console.warn('Failed to clear saved form data:', error);
+            }
+        }
+
+        // Enhanced form reset
+        const originalResetForm = resetForm;
+        resetForm = function() {
+            originalResetForm();
+            clearSavedFormData();
+        };
+    </script>
 </body>
 </html>
